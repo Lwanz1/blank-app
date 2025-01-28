@@ -1,19 +1,20 @@
-# 🎈 Blank app template
+import streamlit as st
+import openai
 
-A simple Streamlit app template for you to modify!
+# Set up OpenAI API key
+openai.api_key = "YOUR_OPENAI_API_KEY"
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://blank-app-template.streamlit.app/)
+# App title
+st.title("AI Friend & Life Coach Chatbot")
 
-### How to run it on your own machine
+# Chat input
+user_input = st.text_input("Talk to me:")
 
-1. Install the requirements
-
-   ```
-   $ pip install -r requirements.txt
-   ```
-
-2. Run the app
-
-   ```
-   $ streamlit run streamlit_app.py
-   ```
+if user_input:
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[{"role": "system", "content": "You are a kind and supportive AI friend & life coach. Provide motivational advice and emotional support."},
+                  {"role": "user", "content": user_input}]
+    )
+    st.write(response['choices'][0]['message']['content'])
+    
